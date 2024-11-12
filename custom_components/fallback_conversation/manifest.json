@@ -1,6 +1,7 @@
 {
     "domain": "fallback_conversation",
     "name": "Fallback Conversation Agent",
+    "after_dependencies": ["assist_pipeline"],
     "codeowners": [
       "@m50"
     ],
@@ -8,7 +9,6 @@
     "dependencies": [
       "conversation"
     ],
-    "after_dependencies": ["assist_pipeline"],
     "documentation": "https://github.com/m50/ha-fallback-conversation",
     "integration_type": "service",
     "iot_class": "local_polling",

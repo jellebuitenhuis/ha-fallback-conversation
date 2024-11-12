@@ -18,11 +18,13 @@
           "data": {
             "debug_level": "Debug Level",
             "primary_agent": "Primary Conversation Agent",
-            "fallback_agent": "Fallback Conversation Agent"
+            "fallback_agent": "Fallback Conversation Agent",
+            "use_fallback_response": "Always use Fallback Agent Response"
           },
           "data_description": {
             "primary_agent": "The first conversation agent that all requests will go to. \nRecommended to be the fastest agent you have that is also local-only, even if it isn't very good at responding.",
-            "fallback_agent": "The backup conversation agent incase the primary agent is unable to handle the request. \nThis is where you may use an cloud service or a very slow conversation agent."
+            "fallback_agent": "The backup conversation agent incase the primary agent is unable to handle the request. \nThis is where you may use an cloud service or a very slow conversation agent.",
+            "use_fallback_response": "Even if the primary agent responds, use the fallback agent's response instead. \nUsually this response is more interesting, e.g. if using Home Assistant as the primary agent, it will respond simply with \"command received\"."
           }
         }
       }

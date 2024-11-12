@@ -5,6 +5,7 @@ DOMAIN = "fallback_conversation"
 CONF_DEBUG_LEVEL = 'debug_level'
 CONF_PRIMARY_AGENT = 'primary_agent'
 CONF_FALLBACK_AGENT = 'fallback_agent'
+CONF_USE_FALLBACK_RESPONSE = 'use_fallback_response'
 
 DEBUG_LEVEL_NO_DEBUG = "none"
 DEBUG_LEVEL_LOW_DEBUG = "low"

@@ -24,6 +24,7 @@ from .const import (
     CONF_DEBUG_LEVEL,
     CONF_PRIMARY_AGENT,
     CONF_FALLBACK_AGENT,
+    CONF_USE_FALLBACK_RESPONSE,
     DEBUG_LEVEL_NO_DEBUG,
     DEBUG_LEVEL_LOW_DEBUG,
     DEBUG_LEVEL_VERBOSE_DEBUG,
@@ -128,4 +129,9 @@ class OptionsFlow(config_entries.OptionsFlow):
                 CONF_FALLBACK_AGENT,
                 description={"suggested_value": options.get(CONF_FALLBACK_AGENT, "")},
             ): ConversationAgentSelector(ConversationAgentSelectorConfig()),
+            vol.Optional(
+                CONF_USE_FALLBACK_RESPONSE,
+                description={"suggested_value": options.get(CONF_USE_FALLBACK_RESPONSE, False)},
+                default=False,
+            ): bool,
         };

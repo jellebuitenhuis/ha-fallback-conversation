@@ -19,6 +19,7 @@ from .const import (
     CONF_DEBUG_LEVEL,
     CONF_PRIMARY_AGENT,
     CONF_FALLBACK_AGENT,
+    CONF_USE_FALLBACK_RESPONSE,
     DEBUG_LEVEL_NO_DEBUG,
     DEBUG_LEVEL_LOW_DEBUG,
     DEBUG_LEVEL_VERBOSE_DEBUG,
@@ -116,7 +117,7 @@ class FallbackConversationAgent(conversation.ConversationEntity, conversation.Ab
 
         all_results = []
         result = None
-        for agent_id in agents:
+        for agent_index, agent_id in enumerate(agents):
             agent_name = "[unknown]"
             if agent_id in agent_names:
                 agent_name = agent_names[agent_id]
@@ -132,6 +133,32 @@ class FallbackConversationAgent(conversation.ConversationEntity, conversation.Ab
                 result,
             )
             if result.response.response_type != intent.IntentResponseType.ERROR and result.response.speech['plain']['original_speech'].lower() not in STRANGE_ERROR_RESPONSES:
+                # The first agent is home assistant, it's responses are not interesting. We send the input to the fallback agent afterwards, but we tell it to not run any intents.
+                use_fallback_response = self.entry.options.get(CONF_USE_FALLBACK_RESPONSE, False)
+                if agent_index == 0 and use_fallback_response:
+                    new_text = f"This is a command you have just processed. Do not execute anything, just respond to the following text: {user_input.text}"
+                    no_intent_user_input = conversation.ConversationInput(
+                        text=new_text,
+                        context=user_input.context,
+                        conversation_id=user_input.conversation_id,
+                        device_id=user_input.device_id,
+                        language=user_input.language,
+                    )
+                    
+                    fallback_agent_id = self.entry.options.get(CONF_FALLBACK_AGENT, default_agent)
+                    fallback_agent_name = agent_names.get(fallback_agent_id, "[unknown]")
+                    if fallback_agent_name == "[unknown]":
+                        _LOGGER.warning("agent_name not found for agent_id %s", fallback_agent_id)
+                    
+                    result = await self._async_process_agent(
+                        agent_manager,
+                        fallback_agent_id,
+                        fallback_agent_name,
+                        no_intent_user_input,
+                        debug_level,
+                        result
+                    )
+                    return result
                 return result
             all_results.append(result)
 

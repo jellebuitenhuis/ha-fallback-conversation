@@ -15,6 +15,9 @@ The options provide 3 debug levels:
 - Low Debug: This will add information such as what agent is responding to the response. This way you can determine if fallback is working as you expect.
 - Verbose Debug: Will provide you with more information, including the error of the previous response.
 
+This component provides the option to always use the response of the fallback agent, even if the primary agent responds.
+This is useful if you want to use Home Assistant as the primary agent for some intents, but you value the response of the fallback agent more.
+
 ## Installation
 
 1. Install via registering as a custom repository of HACS or by copying the `fallback_conversation` folder into `<config>/custom_components`.
